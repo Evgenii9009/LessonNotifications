@@ -25,4 +25,5 @@ python3 main.py
 ```
 ### Пример работы
 
-![image](https://github.com/user-attachments/assets/e35813b8-a1a2-4662-aa92-847ef539df74)
+![Screenshot from 2025-03-05 18-06-21](https://github.com/user-attachments/assets/90e1a95f-433a-475d-b0d5-6d1194cf2cc5)
+
