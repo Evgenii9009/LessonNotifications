@@ -2,6 +2,7 @@ import requests
 import telegram
 import time
 import os
+import sys
 
 
 def process_attempt(attempt):
@@ -14,13 +15,18 @@ def process_attempt(attempt):
 
 def main():
     timestamp = 0
-    tg_token = os.environ['TG_TOKEN']
-    bot = telegram.Bot(tg_token)
-    chat_id = 474074848
+    url = 'https://dvmn.org/api/long_polling/'
+    try:
+        tg_token = os.environ['TG_BOT_TOKEN']
+        chat_id = os.environ['TG_CHAT_ID']
+        token = os.environ['DEVMAN_TOKEN']
+        bot = telegram.Bot(tg_token)
+        headers = {'Authorization': token}
+    except KeyError:
+        print('Укажите значения переменных окружения!')
+        sys.exit()
     while True:
         try:
-            url = 'https://dvmn.org/api/long_polling/'
-            headers = {'Authorization': 'Token 2e8b8a13209b8dbc3be00a372efb1ae33d67b4fa'}
             if timestamp:
                 payload = {'timestamp': timestamp}
                 response = requests.get(url, headers=headers, params=payload)
