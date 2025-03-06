@@ -7,11 +7,12 @@ import sys
 
 def process_attempt(attempt):
     status = 'Работа не принята'
-    if attempt['is_negative'] != True:
+    if attempt['is_negative'] is not True:
         status = 'Ваша работа принята!'
     name = attempt['lesson_title']
     url = attempt['lesson_url']
     return status, name, url
+
 
 def main():
     timestamp = 0
@@ -34,12 +35,13 @@ def main():
             else:
                 response = requests.get(url, headers=headers)
                 response.raise_for_status()
-            result = response.json()
-            if result['status'] != 'timeout':
-                timestamp = result['new_attempts'][0]['timestamp']
-                for attempt in result['new_attempts']:
+            devman_response = response.json()
+            if devman_response['status'] != 'timeout':
+                timestamp = devman_response['new_attempts'][0]['timestamp']
+                for attempt in devman_response['new_attempts']:
                     status, name, lesson_url = process_attempt(attempt)
-                    bot.send_message(chat_id=chat_id, text=f'Урок: {name}\n Результат проверки: {status}\n Ссылка на занятие: {lesson_url}')
+                    bot.send_message(chat_id=chat_id,
+                                     text=f'Урок: {name}\n Результат проверки: {status}\n Ссылка на занятие: {lesson_url}')
 
         except requests.exceptions.ReadTimeout:
             pass
